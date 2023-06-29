@@ -2,6 +2,14 @@
 package_update: true
 package_upgrade: true
 
+users:
+  - name: patbaumgartner
+    groups: users, admin, docker
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBVBjYUH5uxJ5jOTfhHg5LAGVnN+BHK8lPF+nB+TZmubYO7jJkxN6FR/NxM0zrUzjWyUSYZtyP1cNS8j20sPg7Jr8S7YN2V7yU/lNGJuPS3hh6ODtobi6EtcUZkmcuUfEu7gMpid4dEZd936dWDGFDSH6Ejdvw+fbcLKGcoINikVNTtWsKTGvMNRVyKty5/B2LJp6PzcHayqPvI8VZqR7nOjwqwi7gC8sxQhDK+V306VeCKq8ddfAQJlW4zbPmjV+1EqboX2vPUjhE+XcYCAnRIJ5L3Spugs2rm7L+GKC8ID85B3Ueh91gaWwJlUFWihIXbYzs6hritc6EnrLTZLN5U25co6aYTHlVoHI15/juBENoZVf3DAkQ7PMQeehJv5l99/oVk1GNpI0vINq/HgFwUbkUI7SLKOoQAWRRRV3+8U8ErQKJgBZtzyyad+/kxbPJYaIA7eOtyNjRAnIVBcw1rnW8Tnr9XwYRqJlkspF49bsXBAo4UiwBXUoSuUbMVsc= patbaumgartner@MyWorkstation
+
 groups:
   - docker
 
@@ -11,13 +19,20 @@ packages:
   - curl
   - gnupg-agent
   - software-properties-common
+  - git
+  - zip
+  - unzip
+  - zsh
+
+package_update: true
+package_upgrade: true
 
 runcmd:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
   - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - apt-get update -y
   - apt-get install -y docker-ce docker-ce-cli containerd.io
-  - curl -L "https://github.com/docker/compose/releases/download/1.28.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - curl -L "https://github.com/docker/compose/releases/download/v2.19.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   - chmod +x /usr/local/bin/docker-compose
   - systemctl enable docker
   - systemctl enable containerd
